@@ -8,7 +8,7 @@
 
 Name:           %{modulename}-selinux
 Version:        0
-Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        2%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Bitcoin Core SELinux policy
 License:        GPLv3
 URL:            https://github.com/scaronni/%{name}
@@ -59,7 +59,10 @@ if [ $1 -eq 0 ]; then
     %selinux_modules_uninstall -s %{selinuxtype} %{modulename}
 fi
 if %{_sbindir}/selinuxenabled ; then
-    %{_sbindir}/semanage port -d -p tcp -t %{modulename}_port_t
+    %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 8332
+    %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 8333
+    %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 18332
+    %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 18333
 fi
 
 %posttrans
@@ -71,6 +74,9 @@ fi
 %ghost %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
 
 %changelog
+* Fri Mar 12 2021 Simone Caronni <negativo17@gmail.com> - 0-2.20210310gitc539073
+- Update postuninstall scriptlet with correct ports.
+
 * Wed Mar 10 2021 Simone Caronni <negativo17@gmail.com> - 0.1-1.20210310git5eccc2a
 - First build.
 
