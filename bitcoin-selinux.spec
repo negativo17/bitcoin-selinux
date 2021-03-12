@@ -1,4 +1,4 @@
-%global commit0 7d10d99270b3886dc93ed35664286250c991b2c5
+%global commit0 eaa9a049c8e3f645dc92797ca37703d95f885db1
 %global date 20210312
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
@@ -8,7 +8,7 @@
 
 Name:           %{modulename}-selinux
 Version:        0
-Release:        3%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        4%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Bitcoin Core SELinux policy
 License:        GPLv3
 URL:            https://github.com/scaronni/%{name}
@@ -50,6 +50,7 @@ install -D -m 0644 %{modulename}.pp.bz2 %{buildroot}%{_datadir}/selinux/packages
 if %{_sbindir}/selinuxenabled ; then
      %{_sbindir}/semanage port -a -t %{modulename}_port_t -p tcp 8332
      %{_sbindir}/semanage port -a -t %{modulename}_port_t -p tcp 8333
+     %{_sbindir}/semanage port -a -t %{modulename}_port_t -p tcp 8334
      %{_sbindir}/semanage port -a -t %{modulename}_port_t -p tcp 18332
      %{_sbindir}/semanage port -a -t %{modulename}_port_t -p tcp 18333
 fi
@@ -61,6 +62,7 @@ fi
 if %{_sbindir}/selinuxenabled ; then
     %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 8332
     %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 8333
+    %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 8334
     %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 18332
     %{_sbindir}/semanage port -d -t %{modulename}_port_t -p tcp 18333
 fi
@@ -74,6 +76,9 @@ fi
 %ghost %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
 
 %changelog
+* Fri Mar 12 2021 Simone Caronni <negativo17@gmail.com> - 0-4.20210312giteaa9a04
+- Updated policy.
+
 * Fri Mar 12 2021 Simone Caronni <negativo17@gmail.com> - 0-3.20210312git7d10d99
 - Allow connections to tor ports, remove permissive.
 
