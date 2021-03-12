@@ -1,5 +1,5 @@
-%global commit0 c539073c52700170caa971cb5ea6bb6a63dae30d
-%global date 20210310
+%global commit0 7d10d99270b3886dc93ed35664286250c991b2c5
+%global date 20210312
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %global selinuxtype targeted
@@ -8,7 +8,7 @@
 
 Name:           %{modulename}-selinux
 Version:        0
-Release:        2%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        3%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Bitcoin Core SELinux policy
 License:        GPLv3
 URL:            https://github.com/scaronni/%{name}
@@ -74,6 +74,9 @@ fi
 %ghost %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
 
 %changelog
+* Fri Mar 12 2021 Simone Caronni <negativo17@gmail.com> - 0-3.20210312git7d10d99
+- Allow connections to tor ports, remove permissive.
+
 * Fri Mar 12 2021 Simone Caronni <negativo17@gmail.com> - 0-2.20210310gitc539073
 - Update postuninstall scriptlet with correct ports.
 
