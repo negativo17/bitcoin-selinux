@@ -1,24 +1,19 @@
-%global commit0 eaa9a049c8e3f645dc92797ca37703d95f885db1
-%global date 20210312
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global forgeurl https://github.com/scaronni/%{name}
+%global commit eaa9a049c8e3f645dc92797ca37703d95f885db1
+%forgemeta
 
 %global selinuxtype targeted
-%global moduletype contrib
 %global modulename bitcoin
 
 Name:           %{modulename}-selinux
 Version:        0
-Release:        4%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        5%{?dist}
 Summary:        Bitcoin Core SELinux policy
 License:        GPLv3
-URL:            https://github.com/scaronni/%{name}
+URL:            %{forgeurl}
 BuildArch:      noarch
 
-%if 0%{!?commit0}
-Source0:        https://github.com/scaronni/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-%else
-Source0:        https://github.com/scaronni/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
-%endif
+Source0:        %{forgesource}
 
 Requires:       selinux-policy-%{selinuxtype}
 Requires(post): selinux-policy-%{selinuxtype}
@@ -29,11 +24,7 @@ BuildRequires:  selinux-policy-devel
 Bitcoin Core SELinux policy.
 
 %prep
-%if 0%{!?commit0}
-%autosetup -n %{name}-%{version}
-%else
-%autosetup -n %{name}-%{commit0}
-%endif
+%forgesetup
 
 %build
 make -f %{_datadir}/selinux/devel/Makefile %{modulename}.pp
@@ -76,6 +67,9 @@ fi
 %ghost %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
 
 %changelog
+* Sun Mar 14 2021 Simone Caronni <negativo17@gmail.com> - 0-5
+- Use forge macros from packaging guidelines.
+
 * Fri Mar 12 2021 Simone Caronni <negativo17@gmail.com> - 0-4.20210312giteaa9a04
 - Updated policy.
 
