@@ -5,9 +5,9 @@
 %global selinuxtype targeted
 %global modulename bitcoin
 
-Name:           %{modulename}-selinux
+Name:           bitcoin-core-selinux
 Version:        0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Bitcoin Core SELinux policy
 License:        GPLv3
 URL:            %{forgeurl}
@@ -67,6 +67,9 @@ fi
 %ghost %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
 
 %changelog
+* Wed Sep 22 2021 Simone Caronni <negativo17@gmail.com> - 0-6
+- Rename to bitcoin-core-selinux.
+
 * Sun Mar 14 2021 Simone Caronni <negativo17@gmail.com> - 0-5
 - Use forge macros from packaging guidelines.
 
